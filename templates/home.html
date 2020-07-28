@@ -1,0 +1,12 @@
+{% extends "info_base.html" %}
+{% block title %}首页{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <div class="text-center">
+        <h1>欢迎</h1>
+        <h3>热爱运动，热爱羽球</h3>
+        <h2>晶晨半导体羽毛球官网</h2>
+        {% load static %}
+        <img src="{% static 'images/logo.jpg' %}" alt="logo">
+    </div>
+{% endblock %}

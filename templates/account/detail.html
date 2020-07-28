@@ -1,0 +1,69 @@
+{% extends "info_base.html" %}
+{% load static %}
+{% block title %}个人信息{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+
+        <h1>个人信息</h1>
+
+        <div class="row">
+            <div class="modify"><a href="{% url 'account:edit_detail' %}" style="color: #000000">修改信息</a></div>
+            <div class="col-md-6">
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>用户名:</span></div>
+                    <div class="col-md-8 text-left">{{ user.username }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>姓名:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.name }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>性别:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.get_sex_display }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>部门:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.depart }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>电话:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.phone }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>工位:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.station }}</div>
+                </div>
+
+                <div>
+                    <div class="col-md-4 text-right"><span>比赛排名:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.rank }}</div>
+                </div>
+
+                <div>
+                    <div class="col-md-4 text-right"><span>电话:</span></div>
+                    <div class="col-md-8 text-left">{{ userinfo.stage }}</div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div style="margin-right:200px">
+                    {% if userinfo.photo %}
+                        <img src="{{ userinfo.photo.url|default_if_none:'#' }}" alt="头像" style="width: 200px;border-radius: 50%">
+                    {% else %}
+                        <img name="user_face" src="{% static 'images/badminton.jpg' %}"
+                             class="img-circle"
+                             id="my_photo" width="100px" style="border-radius: 50%">
+                    {% endif %}
+                </div>
+            </div>
+            {##}
+        </div>
+
+    </div>
+{% endblock %}

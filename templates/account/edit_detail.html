@@ -1,0 +1,87 @@
+{% extends "info_base.html" %}
+{% block title %}my information{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+        <h1>修改个人信息</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-horizontal" action="." method="post">{% csrf_token %}
+
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>姓名:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.name }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>性别:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.sex }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>部门:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.depart }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>手机号:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.phone }}</div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 text-right"><span>工位:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.station }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>比赛排名:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.rank }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"><span>参赛情况:</span></div>
+                        <div class="col-md-8 text-left">{{ userinfo.stage }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 text-right"></div>
+                        <div class="col-md-8 text-left">
+                            <input type="submit" value="提交">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                {% load static %}
+                <div style="margin-right:200px">
+                    {% if info.photo %}
+                        <img src="{{ info.photo.url|default_if_none:'#' }}" alt="头像" style="width: 200px;border-radius: 50%">
+                    {% else %}
+                        <img name="user_face" src="{% static 'images/badminton.jpg' %}"
+                             class="img-circle"
+                             id="my_photo" width="100px" style="border-radius: 50%">
+                    {% endif %}
+                </div>
+                <div style="margin-right:200px;margin-top: 20px">
+                    <button id="upload_image" onclick="upload_image_layer()">更新头像</button>
+                </div>
+            </div>
+
+        </div>
+        <script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+        <script type="text/javascript" src="{% static 'js/layer.js' %}"></script>
+        <script>
+            function upload_image_layer() {
+                location.href = "{% url 'account:my_image' %}"
+                {#layer.open({#}
+                {#    title: "上传头像",#}
+                {#    area: ['650px', '600px'],#}
+                {#    type: 2,#}
+                {#    content: "{% url 'account:my_image' %}",#}
+                {# });#}
+            }
+        </script>
+    </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "info_base.html" %}
+
+{% load static %}
+
+{% block title %}登录{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+        <h1>登录</h1>
+
+        {% if form.errors %}
+            <p>您的用户名跟密码不匹配，请重新尝试.</p>
+        {% endif %}
+
+        <p>请输入您的用户名跟密码</p>
+
+        {% if next %}
+            <form class="form-horizontal" action="{% url 'account:login' %}?next={{ next }}" method="post">
+        {% else %}
+            <form class="form-horizontal" action="{% url 'account:login' %}" method="post">
+        {% endif %}
+        {#        <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">#}
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label"
+                   style="color:#ff0000;margin-left: 50px">
+                <span class="glyphicon glyphicon-user"></span>用户名</label>
+            <div class="col-md-6 text-left">{{ form.username }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label"
+                   style="color:blue;margin-left: 50px">
+                <span class="glyphicon glyphicon-floppy-open"></span>密码</label>
+            <div class="col-md-6 text-left">{{ form.password }}
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary btn-lg" value="登录">
+        </form>
+        <p></p>
+        <p></p>
+        <div class="form-group">
+            <p>如果您还没有帐号，请先 <a href="{% url 'account:register' %}">注册</a></p>
+        </div>
+        <div class="form-group">
+            <p>或者您忘记了密码 需要 <a href="{% url 'account:password_reset' %}">重置密码</a></p>
+        </div>
+
+    </div>
+{% endblock %}

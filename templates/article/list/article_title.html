@@ -1,0 +1,25 @@
+{% extends "article/base.html" %}
+{% load article_tags %}
+{% block title %} 帖子 {% endblock %}
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+        <h1>[广告]高价回收二手丝袜，微信手机同号138-XXXX-XXXX</h1>
+        <br>
+        <p>共{% total_articles %}帖</p>
+    </div>
+    <div class="container" style="margin-top: 20px">
+        {% for article in articles %}
+            <div class="list-group">
+                <a href="{{ article.get_url_path }}" class="list-group-item active">
+                    <h4 class="list-group-item-heading">{{ article.title }}</h4>
+                </a>
+                <br>
+                <p class="list-group-item-text">作者:<a
+                        href="{% url 'article:author_articles' article.author.username %}">{{ article.author.username }}</a>
+                    {#                <p class="list-group-item-text">作者:{{ article.author.username }}</p>#}
+                <p class="list-group-item-text">概要:{{ article.body|slice:'70'| linebreaks }}</p>
+            </div>
+        {% endfor %}
+        {% include "paginator.html" %}
+    </div>
+{% endblock %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关于我们</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/us.css' %}">
+    <script type="text/javascript" src="{% static '/js/jquery-1.12.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/jquery.mousewheel.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            var $screen = $('.pages_con');
+            var $pages = $('.pages');
+            var $len = $pages.length;
+            var $h = $(window).height();
+            var $points = $('.points li');
+            var timer = null;
+
+            var $nowscreen = 0;
+            $pages.css('height', $h);
+            $pages.eq(0).addClass('moving');
+
+            $points.click(function () {
+                $nowscreen = $(this).index();
+                $points.eq($nowscreen).addClass('active').siblings().removeClass('active');
+                $screen.animate({'top': -$h * $nowscreen}, 300);
+                $pages.eq($nowscreen).addClass('moving').siblings().removeClass('moving');
+            });
+
+            // 鼠标滚轮事件
+            $(window).mousewheel(function (event, dat) {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    if (dat == -1) {
+                        $nowscreen++;
+                    } else {
+                        $nowscreen--;
+                    }
+                    if ($nowscreen < 0) {
+                        $nowscreen = 0
+                    }
+                    if ($nowscreen > $len - 1) {
+                        $nowscreen = $len - 1;
+                    }
+                    $screen.animate({'top': -$h * $nowscreen}, 300);
+                    $pages.eq($nowscreen).addClass('moving').siblings().removeClass('moving');
+                    $points.eq($nowscreen).addClass('active').siblings().removeClass('active');
+                }, 200);
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="pages_con">
+    <div class="totop"><a href="{% url 'index' %}"><strong>←</strong></a></div>
+    <div class="pages page1">
+        <div class="main_con">
+            <div class="left_img"><img src="{% static '/images/us01.jpg' %}" alt="羽毛球剪贴画"></div>
+            <div class="right_info">
+                .蔡虚坤发烧62度坚持上台，双腿粉碎性骨折仍练习踢踏舞，每日练习40个小时，大小便失禁仍不去医院，累得高位截瘫还练舞，喉咙肿大30多倍坚持练发音，有全国300亿粉丝却不骄傲，每个2月30、31日慈善义演，将获得的20万亿美元捐给瑞士上不起学的孩子，为了慈善事业每天献出两大桶血，这些你们能做到吗？[滑稽]
+            </div>
+        </div>
+    </div>
+    <div class="pages page2">
+        <div class="main_con">
+            <div class="right_img"><img src="{% static '/images/us02.jpg' %}" alt="羽毛球剪贴画"></div>
+            <div class="left_info">
+                .青龙偃月刀为何沦为水果刀？九齿钉耙梳出的中分为何如此靓丽？传国玉玺缺的一角竟然是砸核桃所致？何人竟能用13500斤的金箍棒擀饺子皮？张飞为何哭诉自己的蛇矛被抢去织毛衣？京外高压线为何频频发出琴声？敬请关注今晚8点走近科学栏目专题《秀儿，是你吗？》
+            </div>
+        </div>
+    </div>
+    <div class="pages  page3">
+        <div class="main_con">
+            <div class="left_img"><img src="{% static '/images/us03.jpg' %}" alt="羽毛球剪贴画"></div>
+            <div class="right_info">
+                我不敢乱评论，怕等会儿有人拿九齿钉耙给我梳中分，用方天画戟给我削苹果，用传国玉玺砸核桃给我吃，爬高压线给我弹一首东风，用生死簿给我练字，给我佛祖舍利让我弹弹珠玩，用定海神针给我织毛衣，拿金箍棒给你擀饺子皮给我包饺子吃，用丈八蛇矛给我织毛衣，给我端意大利面让我尝，最后还要叫我秀儿(滑稽)
+            </div>
+        </div>
+    </div>
+    <div class="pages page4">
+        <div class="main_con">
+            <div class="left_img"><img src="{% static '/images/us04.jpg' %}" alt="羽毛球剪贴画"></div>
+            <div class="right_info">¿ɐɯ ǝp uɐɥz q ıɐz nɥz nop uǝɯ ıu</div>
+
+        </div>
+    </div>
+    <div class="pages page5">
+        <div class="main_con">
+            <div class="center_img">
+                <img src="{% static '/images/us05.png' %}" alt="羽毛球剪贴画">
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="points">
+    <li class="active"></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+</body>
+</html>

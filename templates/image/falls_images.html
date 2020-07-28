@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load thumbnail %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}球员风采{% endblock %}</title>
+    {#    <link rel="stylesheet" href="{% static '/css/us.css' %}">#}
+    <link rel="stylesheet" href="{% static '/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %} ">
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'css/code.css' %}">#}
+</head>
+
+<body>
+{% block header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+
+            <li><a href="{% url 'index' %}">选手名单<span
+                    class="sr-only">(current)</span></a>
+            </li>
+            <li class="active"><a href="{% url 'image:fall_image' %}">选手风采<span
+                    class="sr-only">(current)</span></a>
+            </li>
+
+            <li><a href="{% url 'article:article_title' %}">羽球论坛<span
+                    class="sr-only">(current)</span></a>
+            </li>
+            <li><a href="{% url 'announcement' %}">羽球宣传<span
+                    class="sr-only">(current)</span></a>
+            </li>
+
+        </ul>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/mansory-style.css' %}" type="text/css"/>
+        <div id="my-gallery-container">
+            {% for image in images %}
+                <div class="falls_item h200" data-order="{{ image.id }}">
+                    <!--img src="{{ image.image.url }}"-->
+                    <a href="javascript:void(0)"
+                       onclick="displayImage('{{ image.user }}', '{{ image.title }}','{{ image.image.url }}', '{{ image.description }}','{{ request.get_host }}')">
+                        <img src="{{ image.image.url }}">
+                    </a>
+                    <p>{{ image.title }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src='{% static "js/jquery.js" %}'></script>
+    <script src="{% static 'js/mp.mansory.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/layer.js' %}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $("#my-gallery-container").mpmansory(
+                {
+                    childrenClass: 'falls_item', // default is a div
+                    columnClasses: 'falls_padding', //add classes to items
+                    breakpoints: {
+                        lg: 3,
+                        md: 4,
+                        sm: 6,
+                        xs: 12
+                    },
+                    distributeBy: {order: false, height: false, attr: 'data-order', attrOrder: 'desc'}, //default distribute by order, options => order: true/false, height: true/false, attr => 'data-order', attrOrder=> 'asc'/'desc'
+                });
+        });
+
+        function displayImage(user, title, url, description, host) {
+            layer.open({
+                type: 1,
+                title: title,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['800px', '800px'], //宽高
+                content: '<div class="text-center"><img src="http://' + host + url + '" style="width: 1200px"><p> 发 布 者 :' + user + '</p></div><div style="margin-left:10px">' + description + '</div>',
+            });
+        }
+
+
+    </script>
+
+{% endblock %}
+
+{% include "footer.html" %}
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+{#    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>#}
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+</body>
+</html>

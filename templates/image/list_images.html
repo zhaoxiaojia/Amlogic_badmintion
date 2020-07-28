@@ -1,0 +1,73 @@
+{% extends 'article/base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block content %}
+    <div style="margin: 20px">
+        <form action="/image/upload_image/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-center row vertical-middle-sm">
+                {#                    <img src="{{ info.photo.url }}" alt=""/></div>#}
+                <div style="display: block"><span>标题</span>&nbsp;&nbsp;<input name="title" type="text"></div>
+                <div style="display: block"><span>描述</span>&nbsp;&nbsp;<input name="description" type="text"></div>
+                <input name="photo" type="file" id="exampleInputFile" style="position:relative; margin: 20px auto">
+                <button id="photo" class="btn btn-danger " type="submit">上传头像</button>
+            </div>
+        </form>
+        <div style="margin-top:10px;">
+            <table class="table table-hover">
+                <tr>
+                    <td>序号</td>
+                    <td>标题</td>
+                    <td>图片</td>
+                    <td>操作</td>
+                </tr>
+                {% for image in images %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ image.title }}</td>
+                        {#                        <td><img src="{{ image.image.url }}" alt="图片"></td>#}
+                        {% thumbnail image.image "100x100" crop="center" as im %}
+                            <td><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="图片"></td>
+                        {% endthumbnail %}
+                        <td><a nane="delete" href="javascript:" onclick="del_image(this, {{ image.id }})"><span
+                                class="glyphicon glyphicon-trash" style="margin-left:20px;"></span></a></td>
+                    </tr>
+                {% empty %}
+                    <p>还没有图片，请点击上面的按钮添加图片</p>
+                {% endfor %}
+            </table>
+            {% include 'paginator.html' %}
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/layer.js' %}"></script>
+    <script type="text/javascript">
+        function del_image(the, image_id) {
+            var image_title = $(the).parents("tr").children("td").eq(1).text();
+            layer.open({
+                type: 1,
+                skin: "layui-layer-rim",
+                area: ["400px", "200px"],
+                title: "删除图片",
+                content: '<div class="text-center" style="margin-top:20px"><p>是否确定删除《' + image_title + '》</p> </div>',
+                btn: ['确定', '取消'],
+                yes: function () {
+                    $.ajax({
+                        url: '{% url "image:del_image" %}',
+                        type: "POST",
+                        data: {"image_id": image_id},
+                        success: function (e) {
+                            if (e == "1") {
+                                parent.location.reload();
+                                layer.msg("已删除");
+                            } else {
+                                layer.msg("删除失败");
+                            }
+                        },
+                    })
+                },
+            });
+        }
+    </script>
+
+{% endblock %}

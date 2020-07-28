@@ -1,0 +1,20 @@
+{% extends 'info_base.html' %}
+{% block title %}注册{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <div class="text-center row vertical-middle-sm">
+        <p></p>
+        <p></p>
+        <p>您输入的数据有误</p>
+        {% for foo in user_form %}
+            <p>{{ foo.errors }}</p>
+{#            <p>{{ foo.label_tag }}{{ foo }}</p>#}
+        {% endfor %}
+        {% for foo in userinfo_form %}
+            <p>{{ foo.errors }}</p>
+{#            <p>{{ foo.label_tag }}{{ foo }}</p>#}
+        {% endfor %}
+
+        <a href="{% url 'account:register' %}">注册</a>
+    </div>
+{% endblock %}

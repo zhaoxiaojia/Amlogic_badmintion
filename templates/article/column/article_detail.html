@@ -1,0 +1,10 @@
+{% extends 'article/base.html' %}
+{% load static %}
+{% block title %}帖子{% endblock %}
+{% block content %}
+    <div style="margin: 20px">
+        <h1>{{ article.title }}</h1>
+        <p>{{ user.username }}</p>
+        {{ article.body|safe }}
+    </div>
+{% endblock %}
